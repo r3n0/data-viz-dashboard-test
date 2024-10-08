@@ -1,0 +1,21 @@
+#all_charts {
+	padding: 2rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.year-buttons {
+	display: flex;
+	gap: 1rem;
+}
+
+.chart_title {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 2rem;
+}
+.page_title {
+	font-family: 'Courier New', Courier, monospace;
+	font-weight: 800;
+	font-size: 3rem;
+}

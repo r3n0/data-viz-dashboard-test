@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Dashboard with Separate JS Files</title>
+		<script src="https://d3js.org/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<h1 class="page_title">Dashboard de datos del SGA por años</h1>
+
+		<!-- Year filter buttons -->
+		<div class="year-buttons" id="year-buttons"></div>
+
+		<!-- Containers for each chart -->
+		<div id="all_charts">
+			<div id="chart1"></div>
+			<div id="chart2"></div>
+			<div id="chart3"></div>
+			<div id="chart4"></div>
+			<div id="chart5"></div>
+		</div>
+
+		<!-- Include the external JavaScript files for each chart -->
+		<script src="main.js"></script>
+		<script src="charts/chart1.js"></script>
+		<script src="charts/chart2.js"></script>
+		<script src="charts/chart3.js"></script>
+		<script src="charts/chart4.js"></script>
+		<script src="charts/chart5.js"></script>
+	</body>
+</html>
