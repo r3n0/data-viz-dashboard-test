@@ -7,12 +7,6 @@ function createChart7(data) {
 		new Set(data.map((d) => d['sexo'] || 'Unknown Sexo'))
 	);
 
-	// Define the color scale for "sexo"
-	const color = d3
-		.scaleOrdinal()
-		.domain(uniqueSexos)
-		.range(d3.schemeCategory10); // You can replace with any other color scheme
-
 	// Manually build the hierarchical structure
 	const hierarchyData = buildHierarchy(data);
 

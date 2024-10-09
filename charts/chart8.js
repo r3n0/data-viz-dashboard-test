@@ -1,14 +1,10 @@
-function createChart5(data) {
+function createChart8(data) {
 	// Clear the previous chart
-	d3.select('#chart5').html('');
+	d3.select('#chart8').html('');
 
 	// Filter out rows where any of the required columns is missing or undefined
 	const filteredData = data.filter(
-		(d) =>
-			d['sexo'] &&
-			d['lengua_materna'] &&
-			d['nacionalidad_indigena'] &&
-			d['provincia_labora']
+		(d) => d['sexo'] && d['lengua_materna'] // Only filter for 'sexo' and 'lengua_materna'
 	);
 
 	// Prepare the nodes and links for Sankey layout
@@ -22,38 +18,20 @@ function createChart5(data) {
 		}
 	}
 
-	// Create nodes and links based on the dimensions
+	// Create nodes and links based on the two dimensions: 'sexo' and 'lengua_materna'
 	filteredData.forEach((d) => {
 		const sexo = d['sexo'];
 		const lengua_materna = d['lengua_materna'];
-		const nacionalidad_indigena = d['nacionalidad_indigena'];
-		const provincia_labora = d['provincia_labora'];
 
 		addNode(sexo);
 		addNode(lengua_materna);
-		addNode(nacionalidad_indigena);
-		addNode(provincia_labora);
 
 		// Ensure no circular link (i.e., no source == target in the link chain)
 		if (sexo !== lengua_materna) {
 			links.push({
 				source: sexo,
 				target: lengua_materna,
-				value: 1,
-			});
-		}
-		if (lengua_materna !== nacionalidad_indigena) {
-			links.push({
-				source: lengua_materna,
-				target: nacionalidad_indigena,
-				value: 1,
-			});
-		}
-		if (nacionalidad_indigena !== provincia_labora) {
-			links.push({
-				source: nacionalidad_indigena,
-				target: provincia_labora,
-				value: 1,
+				value: 1, // You can adjust this value as needed
 			});
 		}
 	});
@@ -74,7 +52,7 @@ function createChart5(data) {
 
 	// Create the SVG container
 	const svg = d3
-		.select('#chart5')
+		.select('#chart8')
 		.append('svg')
 		.attr('width', width + margin.left + margin.right)
 		.attr('height', height + margin.top + margin.bottom)
@@ -84,7 +62,7 @@ function createChart5(data) {
 	// Define color scale for nodes based on 'sexo'
 	const colorScale = d3
 		.scaleOrdinal()
-		.domain(['HOMBRE', 'MUJER'])
+		.domain(['HOMBRE', 'MUJER']) // Adjust this based on your actual 'sexo' data values
 		.range(customColors);
 
 	// Draw links (ribbons) between nodes
@@ -132,5 +110,5 @@ function createChart5(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Sexo, Idioma, Nacionalidad y Provincia');
+		.text('Sexo e Idioma Materno');
 }
