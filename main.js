@@ -2,8 +2,11 @@ const width = 600;
 const height = 400;
 const margin = { top: 80, right: 50, bottom: 50, left: 50 };
 
+const color_1 = '#FC6391';
+const color_2 = '#A363FC';
+
 // Load the dataset once in the main file
-d3.csv('data.csv').then(function (data) {
+d3.csv('filtered_data.csv').then(function (data) {
 	// Parse the date format in the 'Fecha registro' column
 	const parseDate = d3.timeParse('%m/%d/%Y');
 	data.forEach((d) => {
@@ -46,5 +49,10 @@ d3.csv('data.csv').then(function (data) {
 		createChart3(filteredData);
 		createChart4(filteredData);
 		createChart5(filteredData);
+		createChart7(filteredData);
 	}
+});
+
+d3.csv('filtered_data_by_month.csv').then(function (data) {
+	createStreamGraph(data);
 });

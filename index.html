@@ -1,32 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<title>Dashboard with Separate JS Files</title>
+		<!-- Include D3.js -->
 		<script src="https://d3js.org/d3.v7.min.js"></script>
+
+		<!-- Include D3 Sankey plugin -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"></script>
 		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
-		<h1 class="page_title">Dashboard de datos del SGA por años</h1>
+		<div class="main_container">
+			<h1 class="page_title">Dashboard de datos del SGA por años</h1>
 
-		<!-- Year filter buttons -->
-		<div class="year-buttons" id="year-buttons"></div>
+			<!-- Year filter buttons -->
+			<div class="year-buttons" id="year-buttons"></div>
 
-		<!-- Containers for each chart -->
-		<div id="all_charts">
-			<div id="chart1"></div>
-			<div id="chart2"></div>
-			<div id="chart3"></div>
-			<div id="chart4"></div>
-			<div id="chart5"></div>
+			<!-- Containers for each chart -->
+			<div id="all_charts">
+				<div id="chart1"></div>
+				<div id="chart2"></div>
+				<div id="chart3"></div>
+				<div id="chart4"></div>
+				<div id="chart5"></div>
+				<div id="chart6"></div>
+				<div id="chart7"></div>
+			</div>
+
+			<!-- Include the external JavaScript files for each chart -->
+			<script src="main.js"></script>
+			<script src="charts/chart1.js"></script>
+			<script src="charts/chart2.js"></script>
+			<script src="charts/chart3.js"></script>
+			<script src="charts/chart4.js"></script>
+			<script src="charts/chart5.js"></script>
+			<script src="charts/chart6.js"></script>
+			<script src="charts/chart7.js"></script>
 		</div>
-
-		<!-- Include the external JavaScript files for each chart -->
-		<script src="main.js"></script>
-		<script src="charts/chart1.js"></script>
-		<script src="charts/chart2.js"></script>
-		<script src="charts/chart3.js"></script>
-		<script src="charts/chart4.js"></script>
-		<script src="charts/chart5.js"></script>
 	</body>
 </html>

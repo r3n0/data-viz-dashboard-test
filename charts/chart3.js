@@ -5,6 +5,26 @@ function createChart3(data) {
 	// Filter out rows where 'edad' or 'sexo' is missing
 	const filteredData = data.filter((d) => d['edad'] && d['sexo']);
 
+	// Group the data by 'sexo' and 'edad', and count occurrences
+	const groupedData = d3.rollups(
+		filteredData,
+		(v) => v.length,
+		(d) => d['sexo'],
+		(d) => +d['edad']
+	);
+
+	// Flatten the grouped data for easier manipulation
+	const flatData = [];
+	groupedData.forEach((sexGroup) => {
+		sexGroup[1].forEach((ageGroup) => {
+			flatData.push({
+				sexo: sexGroup[0],
+				edad: ageGroup[0],
+				count: ageGroup[1],
+			});
+		});
+	});
+
 	// Create SVG container
 	const svg = d3
 		.select('#chart3')
@@ -14,57 +34,46 @@ function createChart3(data) {
 		.append('g')
 		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-	// X scale for 'edad' (age)
+	// X scale for 'sexo'
 	const x = d3
-		.scaleLinear()
-		.domain([
-			d3.min(filteredData, (d) => +d['edad']) - 5,
-			d3.max(filteredData, (d) => +d['edad']) + 5,
-		]) // Add some padding
-		.range([0, width]);
-
-	// Y scale for 'sexo' (gender)
-	const y = d3
 		.scaleBand()
 		.domain(['HOMBRE', 'MUJER'])
-		.range([0, height])
+		.range([0, width])
 		.padding(0.5);
+
+	// Y scale for 'edad'
+	const y = d3
+		.scaleLinear()
+		.domain([
+			d3.min(flatData, (d) => d.edad) - 5,
+			d3.max(flatData, (d) => d.edad) + 5,
+		]) // Add some padding
+		.range([height, 0]);
+
+	// Size scale for the count of individuals
+	const size = d3
+		.scaleLinear()
+		.domain([0, d3.max(flatData, (d) => d.count)])
+		.range([5, 30]); // Circle size range
 
 	// X axis
 	svg.append('g')
 		.attr('transform', 'translate(0,' + height + ')')
-		.call(d3.axisBottom(x).ticks(10))
-		.append('text')
-		.attr('x', width / 2)
-		.attr('y', 40)
-		.attr('text-anchor', 'middle')
-		.attr('fill', 'black')
-		.style('font-size', '16px')
-		.text('Edad');
+		.call(d3.axisBottom(x));
 
 	// Y axis
-	svg.append('g')
-		.call(d3.axisLeft(y))
-		.append('text')
-		.attr('transform', 'rotate(-90)')
-		.attr('x', -height / 2)
-		.attr('y', -40)
-		.attr('text-anchor', 'middle')
-		.attr('fill', 'black')
-		.style('font-size', '16px')
-		.text('Sexo');
+	svg.append('g').call(d3.axisLeft(y));
 
-	// Create the scatter points
+	// Create the bubbles (scatter points)
 	svg.selectAll('circle')
-		.data(filteredData)
+		.data(flatData)
 		.enter()
 		.append('circle')
-		.attr('cx', (d) => x(+d['edad']))
-		.attr('cy', (d) => y(d['sexo']) + y.bandwidth() / 2) // Place it in the middle of the band
-		.attr('r', 5)
-		.attr('fill', 'steelblue')
-		.attr('opacity', 0.7)
-		.attr('stroke', 'black');
+		.attr('cx', (d) => x(d['sexo']) + x.bandwidth() / 2) // Center the bubbles in their respective 'sexo' categories
+		.attr('cy', (d) => y(d['edad'])) // Position based on 'edad'
+		.attr('r', (d) => size(d['count'])) // Size based on the count of individuals
+		.attr('fill', (d) => (d['sexo'] === 'HOMBRE' ? color_1 : color_2)) // Color based on gender
+		.attr('opacity', 0.5);
 
 	// Add title to the chart
 	svg.append('text')
@@ -72,5 +81,5 @@ function createChart3(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Relationship between Age and Gender');
+		.text('Relación entre edad y sexo');
 }

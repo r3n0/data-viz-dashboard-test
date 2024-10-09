@@ -66,7 +66,7 @@ function createChart2(data) {
 	const color = d3
 		.scaleOrdinal()
 		.domain(['HOMBRE', 'MUJER'])
-		.range(['#1f77b4', '#ff7f0e']);
+		.range([color_1, color_2]);
 
 	// Grouped bars
 	svg.selectAll('g.layer')

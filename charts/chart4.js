@@ -69,7 +69,7 @@ function createChart4(data) {
 	const color = d3
 		.scaleOrdinal()
 		.domain(['HOMBRE', 'MUJER'])
-		.range(['#1f77b4', '#ff7f0e']);
+		.range([color_1, color_2]);
 
 	// Create grouped bars
 	svg.selectAll('g.layer')
@@ -94,5 +94,5 @@ function createChart4(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Gender Distribution by Nivel');
+		.text('Distribución de sexo por nivel');
 }
