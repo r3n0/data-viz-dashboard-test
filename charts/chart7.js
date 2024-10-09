@@ -2,11 +2,16 @@ function createChart7(data) {
 	// Clear any previous chart if present
 	d3.select('#chart7').html('');
 
-	const width = 600;
-	const height = 400;
+	// Get unique "sexo" values for color scaling
+	const uniqueSexos = Array.from(
+		new Set(data.map((d) => d['sexo'] || 'Unknown Sexo'))
+	);
 
-	// Define the color scale
-	const color = d3.scaleOrdinal(d3.schemeCategory10);
+	// Define the color scale for "sexo"
+	const color = d3
+		.scaleOrdinal()
+		.domain(uniqueSexos)
+		.range(d3.schemeCategory10); // You can replace with any other color scheme
 
 	// Manually build the hierarchical structure
 	const hierarchyData = buildHierarchy(data);
@@ -43,8 +48,8 @@ function createChart7(data) {
 		.attr('id', (d) => d.id)
 		.attr('width', (d) => d.x1 - d.x0)
 		.attr('height', (d) => d.y1 - d.y0)
-		.attr('fill', (d) => color(d.parent.data.name)) // Color based on parent category
-		.attr('stroke', '#fff');
+		.attr('fill', (d) => paletaDeColor(d.parent.data.name)) // Color based on the "sexo" (parent)
+		.attr('stroke', '#ffffff00');
 
 	// Add text labels inside the treemap cells
 	leaf.append('text')
@@ -52,10 +57,12 @@ function createChart7(data) {
 		.attr('y', 13)
 		.text((d) => d.data.name)
 		.style('font-size', '10px')
-		.style('fill', '#fff');
+		.style('fill', 'fff');
 
 	// Add a title tooltip for each cell
 	leaf.append('title').text((d) => `${d.data.name}\n${d.value} records`);
+	leaf.selectAll('text').classed('axis-text', true);
+	leaf.selectAll('rect').classed('rect-chart', true);
 
 	// Function to build a hierarchical structure manually
 	function buildHierarchy(data) {

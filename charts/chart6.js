@@ -56,11 +56,22 @@ function createStreamGraph(data) {
 
 	// Add the X-axis (dates)
 	svg.append('g')
+		.attr('class', ' bottom')
 		.attr('transform', `translate(0, ${height})`)
-		.call(d3.axisBottom(x).tickFormat(d3.timeFormat('%Y-%m'))); // Format the tick labels as "YYYY-MM"
+		.call(d3.axisBottom(x).tickFormat(d3.timeFormat('%Y-%m')))
+		.selectAll('path')
+		.classed('axis-line', true); // Format the tick labels as "YYYY-MM"
 
 	// Add the Y-axis (counts)
-	svg.append('g').call(d3.axisLeft(y));
+	svg.append('g')
+		.call(d3.axisLeft(y))
+		.selectAll('path')
+		.classed('axis-line', true);
+
+	svg.selectAll(' text').classed('axis-text', true);
+	svg.selectAll('.bottom text')
+		.attr('transform', 'rotate(-45)')
+		.style('text-anchor', 'end');
 
 	// Add a title to the graph
 	svg.append('text')

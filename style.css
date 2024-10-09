@@ -1,6 +1,36 @@
-body {
-	background-color: #f9f7f1;
+:root {
+	--color1: #fc6391;
+	--color2: #a363fc;
+	--color3: #eeffdd;
 }
+
+body {
+	background-color: #343137;
+}
+
+button {
+	background-color: #ffffff00;
+	border: solid 1px var(--color2);
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 1.5rem;
+	transition: 100ms;
+}
+
+button:hover {
+	box-shadow: 0px 5px 20px var(--color1);
+	transform: scale(1.05);
+}
+
+.--active {
+	transform: scale(1.05);
+	border: solid 1px var(--color1);
+	background-color: var(--color1);
+}
+
 #all_charts {
 	padding: 2rem;
 	display: flex;
@@ -24,12 +54,37 @@ body {
 	align-items: center;
 }
 
-.chart_title {
+.year-buttons button,
+.chart_title,
+.page_title,
+.axis-text {
 	font-family: 'Courier New', Courier, monospace;
+}
+
+.chart_title,
+.page_title,
+.axis-text {
+	font-family: 'Courier New', Courier, monospace;
+	color: var(--color3);
+	fill: var(--color3);
+}
+.bottom text {
+	font-size: 0.8rem;
+}
+
+.chart_title {
 	font-size: 1.5rem;
 }
 .page_title {
-	font-family: 'Courier New', Courier, monospace;
-	font-weight: 800;
 	font-size: 3rem;
+	font-weight: 400;
+}
+
+.axis-text {
+	font-size: 1rem;
+}
+
+.axis-line {
+	stroke: var(--color3);
+	stroke-width: 2px;
 }

@@ -53,14 +53,23 @@ function createChart2(data) {
 
 	// X axis
 	svg.append('g')
+		.attr('class', ' bottom')
 		.attr('transform', 'translate(0,' + height + ')')
 		.call(d3.axisBottom(x0))
-		.selectAll('text')
-		.attr('transform', 'rotate(-45)')
-		.style('text-anchor', 'end');
+		.selectAll('path')
+		.classed('axis-line', true);
 
 	// Y axis
-	svg.append('g').call(d3.axisLeft(y));
+	svg.append('g')
+		.call(d3.axisLeft(y))
+		.selectAll('path')
+		.classed('axis-line', true);
+
+	svg.selectAll(' text').classed('axis-text', true);
+
+	svg.selectAll('.bottom text')
+		.attr('transform', 'rotate(-45)')
+		.style('text-anchor', 'end');
 
 	// Color scale for 'sexo'
 	const color = d3

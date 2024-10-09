@@ -124,6 +124,8 @@ function createChart5(data) {
 		.attr('fill', 'black')
 		.text((d) => d.name);
 
+	svg.selectAll(' text').classed('axis-text', true);
+
 	// Add title to the chart
 	svg.append('text')
 		.attr('x', width / 2)
