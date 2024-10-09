@@ -8,30 +8,14 @@ function createChart7(data) {
 	// Define the color scale
 	const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-	// Replace missing values with default placeholders (e.g., 'Unknown')
-	const sanitizedData = data.map((d) => ({
-		sexo: d['sexo'] || 'Unknown Sex',
-		Carrera: d['Carrera'] || 'Unknown Carrera',
-		provincia_labora: d['provincia_labora'] || 'Unknown Province',
-		canton_labora: d['canton_labora'] || 'Unknown Canton',
-	}));
+	// Manually build the hierarchical structure
+	const hierarchyData = buildHierarchy(data);
 
-	// Create a hierarchy from the sanitized data
+	// Create a hierarchy from the manually constructed data
 	const root = d3
-		.stratify()
-		.id(
-			(d) =>
-				`${d['sexo']}-${d['Carrera']}-${d['provincia_labora']}-${d['canton_labora']}`
-		)
-		.parentId((d) => {
-			if (d['canton_labora'])
-				return `${d['sexo']}-${d['Carrera']}-${d['provincia_labora']}`;
-			if (d['provincia_labora']) return `${d['sexo']}-${d['Carrera']}`;
-			if (d['Carrera']) return d['sexo'];
-			return null;
-		})(sanitizedData)
-		.sum((d) => 1) // Each leaf node will have a value of 1 (counting occurrences)
-		.sort((a, b) => b.height - a.height || b.value - a.value);
+		.hierarchy(hierarchyData)
+		.sum((d) => d.value) // Use value to size each node
+		.sort((a, b) => b.height - a.height || b.value - a.value); // Sort by height and value
 
 	// Create a treemap layout
 	const treemap = d3.treemap().size([width, height]).padding(1).round(true);
@@ -59,26 +43,67 @@ function createChart7(data) {
 		.attr('id', (d) => d.id)
 		.attr('width', (d) => d.x1 - d.x0)
 		.attr('height', (d) => d.y1 - d.y0)
-		.attr('fill', (d) =>
-			color(
-				d
-					.ancestors()
-					.map((d) => d.id)
-					.reverse()[1]
-			)
-		) // Color based on parent category
+		.attr('fill', (d) => color(d.parent.data.name)) // Color based on parent category
 		.attr('stroke', '#fff');
 
 	// Add text labels inside the treemap cells
 	leaf.append('text')
-		.selectAll('tspan')
-		.data((d) => d.id.split('-')) // Splitting the hierarchy id to show individual levels
-		.enter()
-		.append('tspan')
 		.attr('x', 3)
-		.attr('y', (d, i) => 13 + i * 10)
-		.text((d) => d);
+		.attr('y', 13)
+		.text((d) => d.data.name)
+		.style('font-size', '10px')
+		.style('fill', '#fff');
 
 	// Add a title tooltip for each cell
-	leaf.append('title').text((d) => `${d.id}\n${d.value} records`);
+	leaf.append('title').text((d) => `${d.data.name}\n${d.value} records`);
+
+	// Function to build a hierarchical structure manually
+	function buildHierarchy(data) {
+		const root = { name: 'root', children: [] };
+
+		data.forEach((d) => {
+			const sexo = d['sexo'] || 'Unknown Sexo';
+			const carrera = d['Carrera'] || 'Unknown Carrera';
+			const provincia = d['provincia_labora'] || 'Unknown Provincia';
+			const canton = d['canton_labora'] || 'Unknown Canton';
+
+			// Find or create the 'sexo' node
+			let sexoNode = root.children.find((node) => node.name === sexo);
+			if (!sexoNode) {
+				sexoNode = { name: sexo, children: [] };
+				root.children.push(sexoNode);
+			}
+
+			// Find or create the 'Carrera' node under 'sexo'
+			let carreraNode = sexoNode.children.find(
+				(node) => node.name === carrera
+			);
+			if (!carreraNode) {
+				carreraNode = { name: carrera, children: [] };
+				sexoNode.children.push(carreraNode);
+			}
+
+			// Find or create the 'Provincia' node under 'Carrera'
+			let provinciaNode = carreraNode.children.find(
+				(node) => node.name === provincia
+			);
+			if (!provinciaNode) {
+				provinciaNode = { name: provincia, children: [] };
+				carreraNode.children.push(provinciaNode);
+			}
+
+			// Add the 'Canton' node under 'Provincia' (this is the leaf node)
+			let cantonNode = provinciaNode.children.find(
+				(node) => node.name === canton
+			);
+			if (!cantonNode) {
+				cantonNode = { name: canton, value: 1 };
+				provinciaNode.children.push(cantonNode);
+			} else {
+				cantonNode.value += 1; // Increment value if the node already exists
+			}
+		});
+
+		return root;
+	}
 }
