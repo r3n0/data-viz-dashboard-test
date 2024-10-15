@@ -17,13 +17,13 @@ button {
 	background-color: #ffffff00;
 	border: solid 1px var(--color2);
 	color: white;
-	padding: 20px;
+	padding: 0.9rem;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	transition: 100ms;
-	width: 40%;
+	width: 90%;
 }
 
 button:hover {
@@ -44,6 +44,7 @@ button:hover {
 	overflow: hidden;
 }
 .sidebar {
+	width: 12rem;
 	background-color: #1d1a1f;
 	align-self: start;
 	height: 100vh;
@@ -54,11 +55,12 @@ button:hover {
 
 .all_charts {
 	padding: 2rem;
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+	grid-template-rows: repeat(5, minmax(600px, auto));
+	grid-auto-rows: minmax(600px, auto);
 	gap: 1rem;
-	justify-content: center;
-	align-items: center;
+
 	overflow: scroll;
 }
 
@@ -92,7 +94,7 @@ button:hover {
 	font-size: 1.5rem;
 }
 .page_title {
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: 400;
 }
 

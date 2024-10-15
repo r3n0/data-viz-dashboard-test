@@ -11,13 +11,13 @@ function createChart10(filteredData) {
 	const svg = d3
 		.select('#chart10') // Make sure you have a div with id 'chart10' in your HTML
 		.append('svg')
-		.attr('width', width + margin.left + margin.right)
-		.attr('height', height + margin.top + margin.bottom)
+		.attr('width', width + margin + margin)
+		.attr('height', height + margin + margin)
 		.append('g')
 		.attr(
 			'transform',
-			`translate(${(width + margin.left + margin.right) / 2},${
-				(height + margin.top + margin.bottom) / 2
+			`translate(${(width + margin + margin) / 2},${
+				(height + margin + margin) / 2
 			})`
 		);
 

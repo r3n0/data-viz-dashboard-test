@@ -43,10 +43,10 @@ function createStreamGraph(data) {
 	const svg = d3
 		.select('#chart6')
 		.append('svg')
-		.attr('width', width + margin.left + margin.right)
-		.attr('height', height + margin.top + margin.bottom)
+		.attr('width', width + margin + margin)
+		.attr('height', height + margin + margin)
 		.append('g')
-		.attr('transform', `translate(${margin.left},${margin.top})`);
+		.attr('transform', `translate(${margin},${margin})`);
 
 	// Add the area (stream) to the graph
 	svg.append('path')

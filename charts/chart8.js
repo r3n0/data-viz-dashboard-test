@@ -54,10 +54,10 @@ function createChart8(data) {
 	const svg = d3
 		.select('#chart8')
 		.append('svg')
-		.attr('width', width + margin.left + margin.right)
-		.attr('height', height + margin.top + margin.bottom)
+		.attr('width', width + margin + margin)
+		.attr('height', height + margin + margin)
 		.append('g')
-		.attr('transform', `translate(${margin.left},${margin.top})`);
+		.attr('transform', `translate(${margin},${margin})`);
 
 	// Define color scale for nodes based on 'sexo'
 	const colorScale = d3

@@ -1,6 +1,7 @@
-const width = 500;
-const height = 400;
-const margin = { top: 100, right: 100, bottom: 100, left: 100 };
+const margin = 100;
+const container = document.getElementById('chart1');
+const width = container.clientWidth - margin * 2;
+const height = container.clientHeight - margin * 2;
 
 const color_1 = '#FC6391';
 const color_2 = '#A363FC';
