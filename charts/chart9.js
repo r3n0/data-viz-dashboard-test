@@ -65,17 +65,42 @@ function createChart9(data) {
 		.domain(nodes.map((d) => d.name)) // Adjust this based on your actual data values
 		.range(customColors);
 
-	// Draw links (ribbons) between nodes
+	// Append a div element for tooltips
+	const tooltip = d3
+		.select('body')
+		.append('div')
+		.attr('class', 'tooltip axis-text')
+		.style('position', 'absolute')
+		.style('visibility', 'hidden')
+		.style('background', color_6)
+		.style('padding', '5px')
+		.style('border-radius', '5px');
+
+	// Modify the link drawing to add mouseover and mouseout for tooltip
 	svg.append('g')
 		.selectAll('path')
 		.data(sankeyLinks)
 		.enter()
 		.append('path')
-		.attr('d', d3.sankeyLinkHorizontal()) // Use d3's built-in sankey link path generator
-		.attr('stroke', (d) => colorScale(d.source.name)) // Color based on the source node (nacionalidad_indigena)
-		.attr('stroke-width', (d) => Math.max(1, d.width)) // Set width based on the link value (flow size)
+		.attr('d', d3.sankeyLinkHorizontal())
+		.attr('stroke', (d) => colorScale(d.source.name))
+		.attr('stroke-width', (d) => Math.max(1, d.width))
 		.attr('fill', 'none')
-		.attr('opacity', 0.7);
+		.attr('opacity', 0.7)
+		.on('mouseover', function (event, d) {
+			tooltip
+				.style('visibility', 'visible')
+				.text(`${d.source.name} -> ${d.target.name}`);
+			d3.select(this).attr('stroke-opacity', 1);
+		})
+		.on('mousemove', function (event) {
+			tooltip
+				.style('top', `${event.pageY - 10}px`)
+				.style('left', `${event.pageX + 10}px`);
+		})
+		.on('mouseout', function () {
+			tooltip.style('visibility', 'hidden');
+		});
 
 	// Draw nodes (rectangles)
 	svg.append('g')
@@ -110,5 +135,5 @@ function createChart9(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Nacionalidad Indígena y Provincia Laboral');
+		.text('9. Nacionalidad Indígena y Provincia Laboral');
 }

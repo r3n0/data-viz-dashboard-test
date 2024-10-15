@@ -1,8 +1,8 @@
 function createChart2(data) {
-	// Clear the previous chart
+	// Borrar el gráfico anterior
 	d3.select('#chart2').html('');
 
-	// Group data by 'identificacion_etnic' and 'sexo'
+	// Agrupar datos por 'identificacion_etnic' y 'sexo'
 	const groupedData = d3.rollups(
 		data,
 		(v) => v.length,
@@ -10,7 +10,7 @@ function createChart2(data) {
 		(d) => d['sexo']
 	);
 
-	// Flatten the data
+	// Aplanar los datos
 	const flatData = [];
 	groupedData.forEach((ethnicGroup) => {
 		ethnicGroup[1].forEach((genderGroup) => {
@@ -22,27 +22,27 @@ function createChart2(data) {
 		});
 	});
 
-	// X scale for 'identificacion_etnic'
+	// Escala X para 'identificacion_etnic'
 	const x0 = d3
 		.scaleBand()
 		.domain(groupedData.map((d) => d[0]))
 		.range([0, width])
 		.padding(0.2);
 
-	// X1 scale for 'sexo'
+	// Escala X1 para 'sexo'
 	const x1 = d3
 		.scaleBand()
 		.domain(['HOMBRE', 'MUJER'])
 		.range([0, x0.bandwidth()])
 		.padding(0.05);
 
-	// Y scale for count
+	// Escala Y para contar
 	const y = d3
 		.scaleLinear()
 		.domain([0, d3.max(flatData, (d) => d.count)])
 		.range([height, 0]);
 
-	// Create SVG container
+	// Crear contenedor SVG
 	const svg = d3
 		.select('#chart2')
 		.append('svg')
@@ -51,7 +51,7 @@ function createChart2(data) {
 		.append('g')
 		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-	// X axis
+	// eje x
 	svg.append('g')
 		.attr('class', ' bottom')
 		.attr('transform', 'translate(0,' + height + ')')
@@ -59,7 +59,7 @@ function createChart2(data) {
 		.selectAll('path')
 		.classed('axis-line', true);
 
-	// Y axis
+	// eje y
 	svg.append('g')
 		.call(d3.axisLeft(y))
 		.selectAll('path')
@@ -71,13 +71,13 @@ function createChart2(data) {
 		.attr('transform', 'rotate(-45)')
 		.style('text-anchor', 'end');
 
-	// Color scale for 'sexo'
+	// Escala de colores para 'sexo'
 	const color = d3
 		.scaleOrdinal()
 		.domain(['HOMBRE', 'MUJER'])
 		.range([color_1, color_2]);
 
-	// Grouped bars
+	// barras agrupadas
 	svg.selectAll('g.layer')
 		.data(groupedData)
 		.enter()
@@ -93,11 +93,11 @@ function createChart2(data) {
 		.attr('height', (d) => height - y(d[1]))
 		.attr('fill', (d) => color(d[0]));
 
-	// Add title
+	// Agregar título
 	svg.append('text')
 		.attr('x', width / 2)
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Identificación étnica por sexo');
+		.text('2. Identificación étnica por sexo');
 }

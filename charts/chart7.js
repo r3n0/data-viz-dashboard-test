@@ -107,4 +107,12 @@ function createChart7(data) {
 
 		return root;
 	}
+
+	// Add a title to the graph
+	svg.append('text')
+		.attr('x', width / 2)
+		.attr('y', -30)
+		.attr('text-anchor', 'middle')
+		.attr('class', 'chart_title')
+		.text('7. Árbol');
 }

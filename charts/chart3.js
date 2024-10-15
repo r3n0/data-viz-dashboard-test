@@ -88,5 +88,5 @@ function createChart3(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Relación entre edad y sexo');
+		.text('3. Relación entre edad y sexo');
 }

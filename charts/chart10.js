@@ -104,4 +104,12 @@ function createChart10(filteredData) {
 		.style('fill', (d) => paletaDeColor(d.target.index))
 		.style('stroke', (d) => d3.rgb(paletaDeColor(d.target.index)).darker())
 		.style('opacity', 0.7);
+
+	// Add title to the chart
+	svg.append('text')
+		.attr('x', 0)
+		.attr('y', -height / 2)
+		.attr('text-anchor', 'middle')
+		.attr('class', 'chart_title')
+		.text('10. Nacionalidad Indígena y Provincia Laboral');
 }

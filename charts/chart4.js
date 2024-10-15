@@ -103,5 +103,5 @@ function createChart4(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Distribución de sexo por nivel');
+		.text('4. Distribución de sexo por nivel');
 }

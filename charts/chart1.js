@@ -64,5 +64,5 @@ function createChart1(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Distribución por sexo');
+		.text('1. Distribución por sexo');
 }

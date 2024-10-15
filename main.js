@@ -7,6 +7,7 @@ const color_2 = '#A363FC';
 const color_3 = '#FF9D8C';
 const color_4 = '#FA8CFF';
 const color_5 = '#FCC557';
+const color_6 = '#1D1A20';
 
 const customColors = [color_1, color_2, color_3, color_4, color_5];
 const paletaDeColor = d3.scaleOrdinal(customColors);
@@ -69,8 +70,8 @@ d3.csv('filtered_data.csv').then(function (data) {
 		createChart3(filteredData); // Relación entre edad y Sexo
 		createChart4(filteredData); // Distribución por nivel
 		createChart5(filteredData); // Sexo, idioma, nacionalidad, provincia
-		createChart7(filteredData); // Sexo e idioma materno
-		createChart8(filteredData); // Árbol
+		// createChart7(filteredData); // Árbol
+		createChart8(filteredData); // Sexo e Idioma Materno
 		createChart9(filteredData); // Nacionalidad Indígena y provincia Laboral
 		createChart10(filteredData); // Chord
 	}

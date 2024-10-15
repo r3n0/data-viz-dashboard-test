@@ -65,17 +65,17 @@ function createChart8(data) {
 		.domain(['HOMBRE', 'MUJER']) // Adjust this based on your actual 'sexo' data values
 		.range(customColors);
 
-	// Draw links (ribbons) between nodes
-	svg.append('g')
-		.selectAll('path')
-		.data(sankeyLinks)
-		.enter()
-		.append('path')
-		.attr('d', d3.sankeyLinkHorizontal()) // Use d3's built-in sankey link path generator
-		.attr('stroke', (d) => colorScale(d.source.name)) // Color based on the source node (sexo)
-		.attr('stroke-width', (d) => Math.max(1, d.width)) // Set width based on the link value (flow size)
-		.attr('fill', 'none')
-		.attr('opacity', 0.7);
+	// // Draw links (ribbons) between nodes
+	// svg.append('g')
+	// 	.selectAll('path')
+	// 	.data(sankeyLinks)
+	// 	.enter()
+	// 	.append('path')
+	// 	.attr('d', d3.sankeyLinkHorizontal()) // Use d3's built-in sankey link path generator
+	// 	.attr('stroke', (d) => colorScale(d.source.name)) // Color based on the source node (sexo)
+	// 	.attr('stroke-width', (d) => Math.max(1, d.width)) // Set width based on the link value (flow size)
+	// 	.attr('fill', 'none')
+	// 	.attr('opacity', 0.7);
 
 	// Draw nodes (rectangles)
 	svg.append('g')
@@ -102,7 +102,44 @@ function createChart8(data) {
 		.attr('fill', 'black')
 		.text((d) => d.name);
 
-	svg.selectAll(' text').classed('axis-text', true);
+	// Append a div element for tooltips
+	const tooltip = d3
+		.select('body')
+		.append('div')
+		.attr('class', 'tooltip axis-text')
+		.style('position', 'absolute')
+		.style('visibility', 'hidden')
+		.style('background', color_6)
+		.style('padding', '5px')
+		.style('border-radius', '5px');
+
+	// Modify the link drawing to add mouseover and mouseout for tooltip
+	svg.append('g')
+		.selectAll('path')
+		.data(sankeyLinks)
+		.enter()
+		.append('path')
+		.attr('d', d3.sankeyLinkHorizontal())
+		.attr('stroke', (d) => colorScale(d.source.name))
+		.attr('stroke-width', (d) => Math.max(1, d.width))
+		.attr('fill', 'none')
+		.attr('opacity', 0.7)
+		.on('mouseover', function (event, d) {
+			tooltip
+				.style('visibility', 'visible')
+				.text(`${d.source.name} -> ${d.target.name}`);
+			d3.select(this).attr('stroke-opacity', 1);
+		})
+		.on('mousemove', function (event) {
+			tooltip
+				.style('top', `${event.pageY - 10}px`)
+				.style('left', `${event.pageX + 10}px`);
+		})
+		.on('mouseout', function () {
+			tooltip.style('visibility', 'hidden');
+		});
+
+	svg.selectAll('text').classed('axis-text', true);
 
 	// Add title to the chart
 	svg.append('text')
@@ -110,5 +147,5 @@ function createChart8(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Sexo e Idioma Materno');
+		.text('8.Sexo e Idioma Materno');
 }

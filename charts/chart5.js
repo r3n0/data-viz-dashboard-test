@@ -132,5 +132,5 @@ function createChart5(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('Sexo, Idioma, Nacionalidad y Provincia');
+		.text('5. Sexo, Idioma, Nacionalidad y Provincia');
 }
