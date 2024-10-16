@@ -1,4 +1,4 @@
-const margin = 100;
+const margin = 150;
 const container = document.getElementById('chart1');
 const width = container.clientWidth - margin * 2;
 const height = container.clientHeight - margin * 2;
@@ -12,6 +12,18 @@ const color_6 = '#1D1A20';
 
 const customColors = [color_1, color_2, color_3, color_4, color_5];
 const paletaDeColor = d3.scaleOrdinal(customColors);
+
+const customColors2 = [
+	'#FC639122',
+	'#FC639144',
+	'#FC639166',
+	'#FC639188',
+	'#FC6391aa',
+	'#FC6391cc',
+	'#FC6391ee',
+	'#FC6391',
+];
+const paletaDeColorHeat = d3.scaleOrdinal(customColors2);
 
 // Load the dataset once in the main file
 d3.csv('filtered_data.csv').then(function (data) {
@@ -75,6 +87,7 @@ d3.csv('filtered_data.csv').then(function (data) {
 		createChart8(filteredData); // Sexo e Idioma Materno
 		createChart9(filteredData); // Nacionalidad Indígena y provincia Laboral
 		createChart10(filteredData); // Chord
+		createChart11(filteredData); // Chord
 	}
 });
 
@@ -94,3 +107,46 @@ d3.csv('filtered_data_by_month.csv').then(function (data) {
 	// Call the function to create the stream graph with the filtered data
 	createStreamGraph(filteredData); // Número de estudiantes por mes
 });
+
+// Función para hacer linebraks
+
+function wrapText(text, width) {
+	text.each(function () {
+		const textElement = d3.select(this); // Select the text element
+		const words = textElement
+			.text()
+			.split(/\s+/) // Split the text into words
+			.reverse(); // Reverse the order of words for easier processing
+		let word,
+			line = [],
+			lineNumber = 0,
+			lineHeight = 1.1, // Line height in ems
+			x = textElement.attr('x'), // Get the x position of the text
+			y = textElement.attr('y'), // Get the y position of the text
+			dy = parseFloat(textElement.attr('dy')) || 0, // Initial dy value or 0
+			tspan = textElement
+				.text(null) // Clear the text content
+				.append('tspan') // Create the first tspan element
+				.attr('x', x)
+				.attr('y', y)
+				.attr('dy', `${dy}em`); // dy is the vertical shift from the current line
+
+		// Go through each word and append them to the current line until it exceeds the width
+		while ((word = words.pop())) {
+			line.push(word);
+			tspan.text(line.join(' '));
+			// If the line exceeds the specified width, remove the last word, add a new tspan for the next line
+			if (tspan.node().getComputedTextLength() > width) {
+				line.pop(); // Remove the last word
+				tspan.text(line.join(' ')); // Update current line without the last word
+				line = [word]; // Start a new line with the last word
+				tspan = textElement
+					.append('tspan') // Create a new tspan for the next line
+					.attr('x', x)
+					.attr('y', y)
+					.attr('dy', `${++lineNumber * lineHeight + dy}em`)
+					.text(word);
+			}
+		}
+	});
+}

@@ -79,5 +79,5 @@ function createStreamGraph(data) {
 		.attr('y', -30)
 		.attr('text-anchor', 'middle')
 		.attr('class', 'chart_title')
-		.text('6. Número de estudiantes por mes');
+		.text('6. Número de estudiantes por año');
 }

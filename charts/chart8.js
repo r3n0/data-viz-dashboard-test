@@ -65,18 +65,6 @@ function createChart8(data) {
 		.domain(['HOMBRE', 'MUJER']) // Adjust this based on your actual 'sexo' data values
 		.range(customColors);
 
-	// // Draw links (ribbons) between nodes
-	// svg.append('g')
-	// 	.selectAll('path')
-	// 	.data(sankeyLinks)
-	// 	.enter()
-	// 	.append('path')
-	// 	.attr('d', d3.sankeyLinkHorizontal()) // Use d3's built-in sankey link path generator
-	// 	.attr('stroke', (d) => colorScale(d.source.name)) // Color based on the source node (sexo)
-	// 	.attr('stroke-width', (d) => Math.max(1, d.width)) // Set width based on the link value (flow size)
-	// 	.attr('fill', 'none')
-	// 	.attr('opacity', 0.7);
-
 	// Draw nodes (rectangles)
 	svg.append('g')
 		.selectAll('rect')
@@ -88,30 +76,6 @@ function createChart8(data) {
 		.attr('height', (d) => d.y1 - d.y0)
 		.attr('width', sankey.nodeWidth())
 		.attr('fill', (d) => colorScale(d.name) || '#999');
-
-	// Add text labels to the nodes
-	svg.append('g')
-		.selectAll('text')
-		.data(sankeyNodes)
-		.enter()
-		.append('text')
-		.attr('x', (d) => d.x0 - 10) // Position to the left of the node
-		.attr('y', (d) => (d.y1 + d.y0) / 2)
-		.attr('dy', '0.35em')
-		.attr('text-anchor', 'end')
-		.attr('fill', 'black')
-		.text((d) => d.name);
-
-	// Append a div element for tooltips
-	const tooltip = d3
-		.select('body')
-		.append('div')
-		.attr('class', 'tooltip axis-text')
-		.style('position', 'absolute')
-		.style('visibility', 'hidden')
-		.style('background', color_6)
-		.style('padding', '5px')
-		.style('border-radius', '5px');
 
 	// Modify the link drawing to add mouseover and mouseout for tooltip
 	svg.append('g')
@@ -138,6 +102,30 @@ function createChart8(data) {
 		.on('mouseout', function () {
 			tooltip.style('visibility', 'hidden');
 		});
+
+	// Add text labels to the nodes
+	svg.append('g')
+		.selectAll('text')
+		.data(sankeyNodes)
+		.enter()
+		.append('text')
+		.attr('x', (d) => d.x0 - 10) // Position to the left of the node
+		.attr('y', (d) => (d.y1 + d.y0) / 2)
+		.attr('dy', '0.35em')
+		.attr('text-anchor', 'end')
+		.attr('fill', 'black')
+		.text((d) => d.name);
+
+	// Append a div element for tooltips
+	const tooltip = d3
+		.select('body')
+		.append('div')
+		.attr('class', 'tooltip axis-text')
+		.style('position', 'absolute')
+		.style('visibility', 'hidden')
+		.style('background', color_6)
+		.style('padding', '5px')
+		.style('border-radius', '5px');
 
 	svg.selectAll('text').classed('axis-text', true);
 

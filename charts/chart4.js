@@ -71,6 +71,9 @@ function createChart4(data) {
 	svg.selectAll(' text').classed('axis-text', true);
 
 	svg.selectAll('.bottom text')
+		.attr('x', -3)
+		.attr('y', 10)
+		.call(wrapText, 150)
 		.attr('transform', 'rotate(-45)')
 		.style('text-anchor', 'end');
 

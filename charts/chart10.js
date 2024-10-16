@@ -1,4 +1,4 @@
-function createChart10(filteredData) {
+function createChart10(data) {
 	// Set the dimensions and margins for the diagram
 
 	const innerRadius = Math.min(width, height) * 0.5 - 100;
@@ -23,10 +23,10 @@ function createChart10(filteredData) {
 
 	// Prepare data by filtering necessary columns
 	const nacionalidades = Array.from(
-		new Set(filteredData.map((d) => d['nacionalidad_indigena']))
+		new Set(data.map((d) => d['nacionalidad_indigena']))
 	);
 	const provincias = Array.from(
-		new Set(filteredData.map((d) => d['provincia_labora']))
+		new Set(data.map((d) => d['provincia_labora']))
 	);
 
 	// Create an index map for nationalities and provinces
@@ -42,7 +42,7 @@ function createChart10(filteredData) {
 	);
 
 	// Fill the matrix with data
-	filteredData.forEach((d) => {
+	data.forEach((d) => {
 		const nacionalidadIndex = indexMap[d['nacionalidad_indigena']];
 		const provinciaIndex = indexMap[d['provincia_labora']];
 		matrix[nacionalidadIndex][provinciaIndex] += 1;

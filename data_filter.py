@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the CSV file
-file_path = './filtered_data.csv'  # Replace with the actual path to your CSV file
+file_path = './data.csv'  # Replace with the actual path to your CSV file
 data = pd.read_csv(file_path)
 
 # Keep only the relevant columns and drop rows with missing values in these columns
@@ -15,6 +15,9 @@ columns_to_keep = [
 	'canton_labora',
 	'jurisdiccion_labora', 
 	'Fecha registro',
+	'RMU',
+	'Modalidad laboral',
+	'Estado',
 	'Carrera',
 	'Título',
 	'Nivel']

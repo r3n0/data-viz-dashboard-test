@@ -56,9 +56,9 @@ button:hover {
 .all_charts {
 	padding: 2rem;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-	grid-template-rows: repeat(5, minmax(600px, auto));
-	grid-auto-rows: minmax(600px, auto);
+	grid-template-columns: repeat(auto-fill, minmax(800px, 1fr));
+	grid-template-rows: repeat(5, minmax(800px, auto));
+	grid-auto-rows: minmax(800px, auto);
 	gap: 1rem;
 
 	overflow: scroll;
@@ -88,10 +88,11 @@ button:hover {
 }
 .bottom text {
 	font-size: 0.8rem;
+	font-weight: 800;
 }
 
 .chart_title {
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 }
 .page_title {
 	font-size: 2rem;
@@ -105,4 +106,8 @@ button:hover {
 .axis-line {
 	stroke: var(--color3);
 	stroke-width: 2px;
+}
+
+.tick line {
+	stroke: var(--color3);
 }
